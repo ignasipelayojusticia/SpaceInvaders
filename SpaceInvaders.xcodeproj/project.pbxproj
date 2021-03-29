@@ -13,7 +13,12 @@
 		27877B98260BB2810098EAC5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27877B97260BB2810098EAC5 /* GameScene.swift */; };
 		27877B9A260BB2810098EAC5 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27877B99260BB2810098EAC5 /* GameViewController.swift */; };
 		27877B9D260BB2810098EAC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27877B9B260BB2810098EAC5 /* Main.storyboard */; };
-		27877B9F260BB2820098EAC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27877B9E260BB2820098EAC5 /* Assets.xcassets */; };
+		27877BB3260BC81A0098EAC5 /* lasershoot.wav in Resources */ = {isa = PBXBuildFile; fileRef = 27877BB2260BC81A0098EAC5 /* lasershoot.wav */; };
+		27D33754260CEE2A00A6DE0D /* CGSize+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D33753260CEE2A00A6DE0D /* CGSize+resize.swift */; };
+		27ECB33726120913000710EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27ECB33626120913000710EF /* Assets.xcassets */; };
+		27ECB33B26123140000710EF /* GameScene+Creations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ECB33A26123140000710EF /* GameScene+Creations.swift */; };
+		27ECB33F261231CD000710EF /* GameScene+PhysicsContacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ECB33E261231CD000710EF /* GameScene+PhysicsContacts.swift */; };
+		27ECB34426123F33000710EF /* DelegateSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ECB34326123F33000710EF /* DelegateSample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +29,13 @@
 		27877B97260BB2810098EAC5 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		27877B99260BB2810098EAC5 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		27877B9C260BB2810098EAC5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		27877B9E260BB2820098EAC5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27877BA0260BB2820098EAC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27877BB2260BC81A0098EAC5 /* lasershoot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lasershoot.wav; sourceTree = "<group>"; };
+		27D33753260CEE2A00A6DE0D /* CGSize+resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+resize.swift"; sourceTree = "<group>"; };
+		27ECB33626120913000710EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		27ECB33A26123140000710EF /* GameScene+Creations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+Creations.swift"; sourceTree = "<group>"; };
+		27ECB33E261231CD000710EF /* GameScene+PhysicsContacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+PhysicsContacts.swift"; sourceTree = "<group>"; };
+		27ECB34326123F33000710EF /* DelegateSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegateSample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,16 +68,37 @@
 		27877B90260BB2810098EAC5 /* SpaceInvaders */ = {
 			isa = PBXGroup;
 			children = (
+				27D33752260CED9800A6DE0D /* Extensions */,
 				27877B91260BB2810098EAC5 /* AppDelegate.swift */,
 				27877B93260BB2810098EAC5 /* GameScene.sks */,
 				27877B95260BB2810098EAC5 /* Actions.sks */,
 				27877B97260BB2810098EAC5 /* GameScene.swift */,
+				27ECB33A26123140000710EF /* GameScene+Creations.swift */,
+				27ECB33E261231CD000710EF /* GameScene+PhysicsContacts.swift */,
 				27877B99260BB2810098EAC5 /* GameViewController.swift */,
 				27877B9B260BB2810098EAC5 /* Main.storyboard */,
-				27877B9E260BB2820098EAC5 /* Assets.xcassets */,
+				27ECB33626120913000710EF /* Assets.xcassets */,
+				27877BAC260BC3AD0098EAC5 /* Sounds */,
 				27877BA0260BB2820098EAC5 /* Info.plist */,
+				27ECB34326123F33000710EF /* DelegateSample.swift */,
 			);
 			path = SpaceInvaders;
+			sourceTree = "<group>";
+		};
+		27877BAC260BC3AD0098EAC5 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				27877BB2260BC81A0098EAC5 /* lasershoot.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		27D33752260CED9800A6DE0D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				27D33753260CEE2A00A6DE0D /* CGSize+resize.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,8 +160,9 @@
 			files = (
 				27877B9D260BB2810098EAC5 /* Main.storyboard in Resources */,
 				27877B94260BB2810098EAC5 /* GameScene.sks in Resources */,
-				27877B9F260BB2820098EAC5 /* Assets.xcassets in Resources */,
 				27877B96260BB2810098EAC5 /* Actions.sks in Resources */,
+				27877BB3260BC81A0098EAC5 /* lasershoot.wav in Resources */,
+				27ECB33726120913000710EF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,8 +173,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27D33754260CEE2A00A6DE0D /* CGSize+resize.swift in Sources */,
+				27ECB33B26123140000710EF /* GameScene+Creations.swift in Sources */,
 				27877B98260BB2810098EAC5 /* GameScene.swift in Sources */,
+				27ECB34426123F33000710EF /* DelegateSample.swift in Sources */,
 				27877B9A260BB2810098EAC5 /* GameViewController.swift in Sources */,
+				27ECB33F261231CD000710EF /* GameScene+PhysicsContacts.swift in Sources */,
 				27877B92260BB2810098EAC5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,6 +319,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DCPYH27J5D;
 				INFOPLIST_FILE = SpaceInvaders/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -301,6 +338,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DCPYH27J5D;
 				INFOPLIST_FILE = SpaceInvaders/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
