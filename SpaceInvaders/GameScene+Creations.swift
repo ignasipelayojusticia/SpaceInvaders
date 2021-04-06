@@ -36,10 +36,14 @@ extension GameScene {
     
     private func addHouse(at center: CGPoint) {
         let sprite = SKSpriteNode(imageNamed: "house_1")
+        sprite.name = "house"
         sprite.size.resize(to: 0.5)
         sprite.position = center
         self.addChild(sprite)
-        sprite.physicsBody?.categoryBitMask = 0x00000010
+        sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
+        sprite.physicsBody?.affectedByGravity = false
+        sprite.physicsBody?.categoryBitMask = 0x00000100
+        sprite.physicsBody?.collisionBitMask = 0x00000110
     }
  
     private func getPosition(from matrix: [[CGSize]], at: CGPoint, center: CGPoint) -> CGPoint {
@@ -120,8 +124,8 @@ extension GameScene {
         sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
         sprite.physicsBody?.affectedByGravity = true
         sprite.physicsBody?.linearDamping = 0
-        sprite.physicsBody?.categoryBitMask = 0x00000000
-        sprite.physicsBody?.contactTestBitMask = 0x0000010
+        sprite.physicsBody?.categoryBitMask = 0x00000110
+        sprite.physicsBody?.contactTestBitMask = 0x00000100
     }
 
 }

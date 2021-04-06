@@ -24,6 +24,7 @@ class GameScene: SKScene {
         
         self.backgroundColor = .black
         self.spaceShip = SKSpriteNode(imageNamed: "SpaceShip")
+        self.spaceShip.name = "spaceship"
         self.spaceShip.size = CGSize(width: 50, height: 25)
         self.spaceShip.position = CGPoint(x: 0, y: spaceshipYPositon)
         self.addChild(self.spaceShip)
@@ -38,7 +39,7 @@ class GameScene: SKScene {
         self.scoreLabel.position = CGPoint(x: 0, y: (self.size.height / 2) - 50)
         self.addChild(self.scoreLabel)
         
-        self.bombTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(dropBomb), userInfo: nil, repeats: true)
+        self.bombTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(dropBomb), userInfo: nil, repeats: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -93,9 +94,8 @@ class GameScene: SKScene {
 extension GameScene {
     private func cleanPastShoots() {
         for node in children {
-            guard node.name == "shoot" else { return }
-            
-            if node.position.y > 700 {
+            guard node.name == "shoot" || node.name == "bomb" else { continue }
+            if node.position.y > 700 || node.position.y < -700{
                 node.removeFromParent()
             }
         }
@@ -106,23 +106,18 @@ extension GameScene {
         let bottomEnemies = self.children.filter { node in
             guard let isEnemy = node.name?.hasPrefix("Enemy"), isEnemy == true else { return false }
             let bottomPosition = CGPoint(x: node.position.x, y: node.position.y - self.enemiesVerticaSpacing)
+            let enemies = self.nodes(at: bottomPosition)
             
-            if let body = self.physicsWorld.body(at: bottomPosition), let node = body.node, let name = node.name {
-                if name.hasPrefix("Enemy") { return false }
-            }
-    
-            return true
+            return !enemies.reduce(false) { $0 || $1.name!.hasPrefix("Enemy") }
         }
         
+        guard bottomEnemies.count > 0 else { return }
         
         let shooterEnemyIndex = Int.random(in: 0..<bottomEnemies.count)
-        print("Enemy Index: \(shooterEnemyIndex)")
-        
-        
         let shooterEnemy = bottomEnemies[shooterEnemyIndex]
-        print("Enemy Name: \(shooterEnemy.name) - \(shooterEnemy.position)")
-
-        self.createBomb(at: shooterEnemy.position)
+        let bombPosition = CGPoint(x: shooterEnemy.position.x,
+                                   y: shooterEnemy.position.y - self.enemiesVerticaSpacing / 2)
+        self.createBomb(at: bombPosition)
     }
 }
 

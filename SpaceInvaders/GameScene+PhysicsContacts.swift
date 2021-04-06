@@ -17,6 +17,8 @@ extension GameScene: SKPhysicsContactDelegate {
         
         let oneNodeIsEnemy = nameA.hasPrefix("Enemy") || nameB.hasPrefix("Enemy")
         let oneNodeIsShoot = nameA == "shoot" || nameB == "shoot"
+        let oneNodeIsBomb = nameA == "bomb" || nameB == "bomb"
+        let oneNodeIsHouse = nameA == "house" || nameB == "house"
 
         if oneNodeIsEnemy && oneNodeIsShoot {
             nodeA.removeFromParent()
@@ -26,6 +28,23 @@ extension GameScene: SKPhysicsContactDelegate {
             self.scoreLabel.text = "SCORE: \(self.currentScore)"
         
             // TODO: Explosion
+            
+            return
+        }
+        
+        if oneNodeIsHouse && oneNodeIsBomb {
+            var houseNode: SKSpriteNode
+            
+            if nameA == "bomb" {
+                nodeA.removeFromParent()
+                guard houseNode = nodeB as? SKSpriteNode else { return }
+            } else {
+                nodeB.removeFromParent()
+                guard houseNode = nodeA as? SKSpriteNode else { return }
+            }
+            
+            let currentHouseTexture = houseNode.texture?.description
+            print(currentHouseTexture)
         }
     }
 }
