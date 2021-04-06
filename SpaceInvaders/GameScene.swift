@@ -14,15 +14,17 @@ class GameScene: SKScene {
     private let laserShootSound = SKAction.playSoundFileNamed("lasershoot.wav", waitForCompletion: false)
     private var spaceshipTouch: UITouch?
     var scoreLabel: SKLabelNode!
+    var bombTimer: Timer?
     
     var currentScore: Int = 0
+    let enemiesVerticaSpacing: CGFloat = 50.0
     
     override func didMove(to view: SKView) {
         let spaceshipYPositon = -(self.size.height / 2) + 100
         
         self.backgroundColor = .black
         self.spaceShip = SKSpriteNode(imageNamed: "SpaceShip")
-        self.spaceShip.size = CGSize(width: 75.0, height: 37.5)
+        self.spaceShip.size = CGSize(width: 50, height: 25)
         self.spaceShip.position = CGPoint(x: 0, y: spaceshipYPositon)
         self.addChild(self.spaceShip)
         
@@ -35,11 +37,13 @@ class GameScene: SKScene {
         self.scoreLabel = SKLabelNode(text: "SCORE: 0")
         self.scoreLabel.position = CGPoint(x: 0, y: (self.size.height / 2) - 50)
         self.addChild(self.scoreLabel)
+        
+        self.bombTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(dropBomb), userInfo: nil, repeats: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard self.spaceshipTouch == nil else {
-            createShoot()
+            self.createShoot()
             run(self.laserShootSound)
             return
         }
@@ -82,7 +86,7 @@ class GameScene: SKScene {
     
     
     override func update(_ currentTime: TimeInterval) {
-        cleanPastShoots()
+        self.cleanPastShoots()
     }
 }
 
@@ -95,6 +99,30 @@ extension GameScene {
                 node.removeFromParent()
             }
         }
+    }
+    
+    @objc
+    private func dropBomb() {
+        let bottomEnemies = self.children.filter { node in
+            guard let isEnemy = node.name?.hasPrefix("Enemy"), isEnemy == true else { return false }
+            let bottomPosition = CGPoint(x: node.position.x, y: node.position.y - self.enemiesVerticaSpacing)
+            
+            if let body = self.physicsWorld.body(at: bottomPosition), let node = body.node, let name = node.name {
+                if name.hasPrefix("Enemy") { return false }
+            }
+    
+            return true
+        }
+        
+        
+        let shooterEnemyIndex = Int.random(in: 0..<bottomEnemies.count)
+        print("Enemy Index: \(shooterEnemyIndex)")
+        
+        
+        let shooterEnemy = bottomEnemies[shooterEnemyIndex]
+        print("Enemy Name: \(shooterEnemy.name) - \(shooterEnemy.position)")
+
+        self.createBomb(at: shooterEnemy.position)
     }
 }
 

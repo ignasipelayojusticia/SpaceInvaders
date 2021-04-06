@@ -20,8 +20,8 @@ extension GameScene {
         sprite.physicsBody?.velocity = CGVector(dx: 0, dy: 500)
         sprite.physicsBody?.affectedByGravity = false
         sprite.physicsBody?.linearDamping = 0
-        sprite.physicsBody?.categoryBitMask = 0
-        sprite.physicsBody?.contactTestBitMask = 1
+        sprite.physicsBody?.categoryBitMask = 0x00000000
+        sprite.physicsBody?.contactTestBitMask = 0x00000001
     }
     
 
@@ -39,6 +39,7 @@ extension GameScene {
         sprite.size.resize(to: 0.5)
         sprite.position = center
         self.addChild(sprite)
+        sprite.physicsBody?.categoryBitMask = 0x00000010
     }
  
     private func getPosition(from matrix: [[CGSize]], at: CGPoint, center: CGPoint) -> CGPoint {
@@ -61,22 +62,22 @@ extension GameScene {
             addEnemy(1, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
         }
         
-        startY -= 50
+        startY -= self.enemiesVerticaSpacing
         for n in 0...8 {
             addEnemy(2, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
         }
         
-        startY -= 50
+        startY -= self.enemiesVerticaSpacing
         for n in 0...8 {
             addEnemy(2, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
         }
         
-        startY -= 50
+        startY -= self.enemiesVerticaSpacing
         for n in 0...8 {
             addEnemy(3, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
         }
 
-        startY -= 50
+        startY -= self.enemiesVerticaSpacing
         for n in 0...8 {
             addEnemy(3, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
         }
@@ -98,7 +99,8 @@ extension GameScene {
         enemy.size.resize(to: 0.35)
         enemy.position = position
         enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
-        enemy.physicsBody?.categoryBitMask = 1
+        enemy.physicsBody?.categoryBitMask = 0x00000001
+        enemy.physicsBody?.contactTestBitMask = 0x00000000
         enemy.name = "Enemy_\(number)"
         enemy.physicsBody?.affectedByGravity = false
         self.addChild(enemy)
@@ -108,4 +110,18 @@ extension GameScene {
                                                           resize: false,
                                                           restore: true)))
     }
+    
+    func createBomb(at position: CGPoint) {
+        let sprite = SKSpriteNode(imageNamed: "Shoot")
+        sprite.position = position
+        sprite.name = "bomb"
+        sprite.zPosition = 1
+        addChild(sprite)
+        sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
+        sprite.physicsBody?.affectedByGravity = true
+        sprite.physicsBody?.linearDamping = 0
+        sprite.physicsBody?.categoryBitMask = 0x00000000
+        sprite.physicsBody?.contactTestBitMask = 0x0000010
+    }
+
 }
