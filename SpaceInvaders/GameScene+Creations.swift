@@ -12,7 +12,7 @@ extension GameScene {
     
     func createShoot() {
         let sprite = SKSpriteNode(imageNamed: "Shoot")
-        sprite.position = self.spaceShip.position
+        sprite.position = CGPoint(x: self.spaceShip.position.x, y: self.spaceShip.position.y + 20)
         sprite.name = "shoot"
         sprite.zPosition = 1
         addChild(sprite)
@@ -20,7 +20,7 @@ extension GameScene {
         sprite.physicsBody?.velocity = CGVector(dx: 0, dy: 500)
         sprite.physicsBody?.affectedByGravity = false
         sprite.physicsBody?.linearDamping = 0
-        sprite.physicsBody?.contactTestBitMask = 0x00000101
+        sprite.physicsBody?.contactTestBitMask = 0x00000101 // 5
     }
     
 
@@ -48,7 +48,7 @@ extension GameScene {
             sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
             sprite.position = CGPoint(x: houseX, y: houseY)
             sprite.physicsBody?.affectedByGravity = false
-            sprite.physicsBody?.categoryBitMask = 0x00000100
+            sprite.physicsBody?.categoryBitMask = 0x00000100 // 4
             sprite.physicsBody?.isDynamic = false
             
             self.addChild(sprite)
@@ -56,8 +56,8 @@ extension GameScene {
 
     }
  
-    private func getPosition(from matrix: [[CGSize]], at: CGPoint, center: CGPoint) -> CGPoint {
-        
+    private func getPosition(from matrix: [[CGSize]], at: CGPoint, center: CGPoint) -> CGPoint
+    {
         if at == CGPoint.zero { return center }
         var position = center
         for x in (1...Int(at.x)) {
@@ -67,38 +67,43 @@ extension GameScene {
         return position
     }
         
-    func addEnemies(at y: CGFloat) {
+    func addEnemies(at y: CGFloat)
+    {
         let enemySpacing = self.size.width / 16
         let startX = -(self.size.width / 2) + 30
         var startY = (self.size.height / 2) - 100
 
-        for n in 0...8 {
-            addEnemy(1, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
+        for n in 0...8
+        {
+            addEnemy(1, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY), with: n + 10)
         }
         
         startY -= self.enemiesVerticaSpacing
         for n in 0...8 {
-            addEnemy(2, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
+            addEnemy(2, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY), with: n + 18 + 1)
         }
         
         startY -= self.enemiesVerticaSpacing
         for n in 0...8 {
-            addEnemy(2, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
+            addEnemy(2, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY), with: n + 26 + 1)
         }
         
         startY -= self.enemiesVerticaSpacing
         for n in 0...8 {
-            addEnemy(3, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
+            addEnemy(3, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY), with: n + 34 + 1)
         }
 
         startY -= self.enemiesVerticaSpacing
         for n in 0...8 {
-            addEnemy(3, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY))
+            addEnemy(3, at: CGPoint(x: startX + ( 1.5 * CGFloat(n) * enemySpacing ), y: startY), with: n + 42 + 1)
         }
-
+        
+        self.leftEnemy = 43
+        self.rightEnemy = 51
     }
     
-    private func addEnemy(_ number: Int, at position: CGPoint) {
+    func addEnemy(_ number: Int, at position: CGPoint, with id: Int)
+    {
         let enemyAnimatedAtlas = SKTextureAtlas(named: "Enemy\(number)")
         var moveFrames: [SKTexture] = []
         
@@ -114,11 +119,13 @@ extension GameScene {
         enemy.position = position
         enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
         enemy.physicsBody?.categoryBitMask = 0x00000001
-        enemy.physicsBody?.contactTestBitMask = 0x00000000
-        enemy.name = "Enemy_\(number)"
+        enemy.physicsBody?.contactTestBitMask = 0x00000000 // 0
+        enemy.name = "Enemy_\(id)"
+        print(id)
         enemy.physicsBody?.affectedByGravity = false
         self.addChild(enemy)
 
+        
         enemy.run(SKAction.repeatForever(SKAction.animate(with: moveFrames,
                                                           timePerFrame: 1,
                                                           resize: false,
@@ -134,7 +141,11 @@ extension GameScene {
         sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
         sprite.physicsBody?.affectedByGravity = true
         sprite.physicsBody?.linearDamping = 0
-        sprite.physicsBody?.contactTestBitMask = 0x00000100
+        sprite.physicsBody?.contactTestBitMask = 0x00000100 // 4
     }
 
+    func CheckForNewRightEnemy()
+    {
+        
+    }
 }

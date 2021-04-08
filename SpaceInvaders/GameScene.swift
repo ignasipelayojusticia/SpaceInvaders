@@ -22,6 +22,11 @@ class GameScene: SKScene {
     let enemiesVerticaSpacing: CGFloat = 50.0
     var houseImpacts = [0, 0, 0, 0]
     
+    //var enemies: [[SKSpriteNode]]
+    var enemySpeed: Int = 1
+    var rightEnemy: Int = 0
+    var leftEnemy: Int = 0
+    
     override func didMove(to view: SKView) {
         let spaceshipYPositon = -(self.size.height / 2) + 100
         
@@ -30,6 +35,11 @@ class GameScene: SKScene {
         self.spaceShip.name = "spaceship"
         self.spaceShip.size = CGSize(width: 50, height: 25)
         self.spaceShip.position = CGPoint(x: 0, y: spaceshipYPositon)
+        self.spaceShip.physicsBody = SKPhysicsBody(texture: self.spaceShip.texture!, size: self.spaceShip.size)
+        self.spaceShip.physicsBody?.affectedByGravity = false
+        self.spaceShip.physicsBody?.categoryBitMask = 0x00000100 // 4
+        self.spaceShip.physicsBody?.isDynamic = false
+        
         self.addChild(self.spaceShip)
         
         self.addHouses(spaceshipYPositon)
@@ -45,8 +55,10 @@ class GameScene: SKScene {
         self.bombTimer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(dropBomb), userInfo: nil, repeats: true)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard self.spaceshipTouch == nil else {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        guard self.spaceshipTouch == nil else
+        {
             self.createShoot()
             run(self.laserShootSound)
             return

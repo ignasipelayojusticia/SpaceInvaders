@@ -19,33 +19,64 @@ extension GameScene: SKPhysicsContactDelegate {
         let oneNodeIsShoot = nameA == "shoot" || nameB == "shoot"
         let oneNodeIsBomb = nameA == "bomb" || nameB == "bomb"
         let oneNodeIsHouse = nameA.hasPrefix("house") || nameB.hasPrefix("house")
+        let oneNodeIsPlayer = nameA == "spaceship" || nameB == "spaceship"
 
-        if oneNodeIsEnemy && oneNodeIsShoot {
+        if oneNodeIsEnemy && oneNodeIsShoot
+        {
+            if nameA.hasPrefix("Enemy")
+            {
+                let id = nameA.suffix(2)
+                if Int(id) == self.rightEnemy
+                {
+                    self.CheckForNewRightEnemy()
+                }
+                print("Enemy with id \(id) was killed")
+            }
+            else
+            {
+                let id = nameB.suffix(2)
+                print("Enemy with id \(id) was killed")
+            }
+            
             nodeA.removeFromParent()
             nodeB.removeFromParent()
             
             self.currentScore += 1
             self.scoreLabel.text = "SCORE: \(self.currentScore)"
-        
+            
             run(self.boomSound)
             
             return
         }
         
-        if oneNodeIsHouse && oneNodeIsBomb {
+        if oneNodeIsHouse && oneNodeIsBomb
+        {
             run(self.bombSound)
             nodeA.removeFromParent()
             nodeB.removeFromParent()
             return
         }
 
-        if oneNodeIsShoot && oneNodeIsBomb {
+        if oneNodeIsShoot && oneNodeIsBomb
+        {
             nodeA.removeFromParent()
             nodeB.removeFromParent()
             return
         }
+        
+        if oneNodeIsPlayer && oneNodeIsBomb
+        {
+            if nameA == "bomb"
+            {
+                nodeA.removeFromParent()
+                return
+            }
+            
+            nodeB.removeFromParent()
+        }
 
-        if oneNodeIsShoot {
+        if oneNodeIsShoot
+        {
             nodeA.name == "shoot" ? nodeA.removeFromParent() : nodeB.removeFromParent()
         }
     }
