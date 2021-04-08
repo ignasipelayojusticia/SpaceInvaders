@@ -12,12 +12,15 @@ class GameScene: SKScene {
     
     var spaceShip: SKSpriteNode!
     private let laserShootSound = SKAction.playSoundFileNamed("lasershoot.wav", waitForCompletion: false)
+    let bombSound = SKAction.playSoundFileNamed("bomb.wav", waitForCompletion: false)
+    let boomSound = SKAction.playSoundFileNamed("boom.wav", waitForCompletion: false)
     private var spaceshipTouch: UITouch?
     var scoreLabel: SKLabelNode!
     var bombTimer: Timer?
     
     var currentScore: Int = 0
     let enemiesVerticaSpacing: CGFloat = 50.0
+    var houseImpacts = [0, 0, 0, 0]
     
     override func didMove(to view: SKView) {
         let spaceshipYPositon = -(self.size.height / 2) + 100
@@ -39,7 +42,7 @@ class GameScene: SKScene {
         self.scoreLabel.position = CGPoint(x: 0, y: (self.size.height / 2) - 50)
         self.addChild(self.scoreLabel)
         
-        self.bombTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(dropBomb), userInfo: nil, repeats: true)
+        self.bombTimer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(dropBomb), userInfo: nil, repeats: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

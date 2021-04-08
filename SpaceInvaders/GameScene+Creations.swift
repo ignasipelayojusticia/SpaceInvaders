@@ -20,30 +20,40 @@ extension GameScene {
         sprite.physicsBody?.velocity = CGVector(dx: 0, dy: 500)
         sprite.physicsBody?.affectedByGravity = false
         sprite.physicsBody?.linearDamping = 0
-        sprite.physicsBody?.categoryBitMask = 0x00000000
-        sprite.physicsBody?.contactTestBitMask = 0x00000001
+        sprite.physicsBody?.contactTestBitMask = 0x00000101
     }
     
 
     func addHouses(_ spaceshipYPositon: CGFloat) {
         let houseSpacing = self.size.width / 9
-        var startX = -(self.size.width / 2) + (1.5 * houseSpacing)
-        for _ in (0...3) {
-            self.addHouse(at: CGPoint(x: startX, y: spaceshipYPositon + 150))
-            startX += 2 * houseSpacing
+        var startX = -(self.size.width / 2) + 0.5
+            * houseSpacing
+        for n in (0...3) {
+            self.addHouse(n, at: CGPoint(x: startX, y: spaceshipYPositon + 150))
+            startX += 2.2 * houseSpacing
         }
     }
     
-    private func addHouse(at center: CGPoint) {
-        let sprite = SKSpriteNode(imageNamed: "house_1")
-        sprite.name = "house"
-        sprite.size.resize(to: 0.5)
-        sprite.position = center
-        self.addChild(sprite)
-        sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
-        sprite.physicsBody?.affectedByGravity = false
-        sprite.physicsBody?.categoryBitMask = 0x00000100
-        sprite.physicsBody?.collisionBitMask = 0x00000110
+    private func addHouse(_ number: Int, at center: CGPoint) {
+        let rowHeights: [CGFloat] = [11, 25, 26]
+        for n in (0..<9) {
+            let row = (n / 3) % 3
+            let column = n % 3
+            let houseX = center.x + ((CGFloat(column) + 1) * 30)
+            let houseY = center.y + ((CGFloat(row) - 1) * -rowHeights[row])
+            let texture = SKTexture(imageNamed: "house_\(row)\(column)")
+            let sprite = SKSpriteNode(texture: texture, size: texture.size())
+
+            sprite.name = "house"
+            sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
+            sprite.position = CGPoint(x: houseX, y: houseY)
+            sprite.physicsBody?.affectedByGravity = false
+            sprite.physicsBody?.categoryBitMask = 0x00000100
+            sprite.physicsBody?.isDynamic = false
+            
+            self.addChild(sprite)
+        }
+
     }
  
     private func getPosition(from matrix: [[CGSize]], at: CGPoint, center: CGPoint) -> CGPoint {
@@ -124,7 +134,6 @@ extension GameScene {
         sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
         sprite.physicsBody?.affectedByGravity = true
         sprite.physicsBody?.linearDamping = 0
-        sprite.physicsBody?.categoryBitMask = 0x00000110
         sprite.physicsBody?.contactTestBitMask = 0x00000100
     }
 

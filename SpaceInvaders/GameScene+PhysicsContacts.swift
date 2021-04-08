@@ -18,7 +18,7 @@ extension GameScene: SKPhysicsContactDelegate {
         let oneNodeIsEnemy = nameA.hasPrefix("Enemy") || nameB.hasPrefix("Enemy")
         let oneNodeIsShoot = nameA == "shoot" || nameB == "shoot"
         let oneNodeIsBomb = nameA == "bomb" || nameB == "bomb"
-        let oneNodeIsHouse = nameA == "house" || nameB == "house"
+        let oneNodeIsHouse = nameA.hasPrefix("house") || nameB.hasPrefix("house")
 
         if oneNodeIsEnemy && oneNodeIsShoot {
             nodeA.removeFromParent()
@@ -27,24 +27,26 @@ extension GameScene: SKPhysicsContactDelegate {
             self.currentScore += 1
             self.scoreLabel.text = "SCORE: \(self.currentScore)"
         
-            // TODO: Explosion
+            run(self.boomSound)
             
             return
         }
         
         if oneNodeIsHouse && oneNodeIsBomb {
-            var houseNode: SKSpriteNode
-            
-            if nameA == "bomb" {
-                nodeA.removeFromParent()
-                guard houseNode = nodeB as? SKSpriteNode else { return }
-            } else {
-                nodeB.removeFromParent()
-                guard houseNode = nodeA as? SKSpriteNode else { return }
-            }
-            
-            let currentHouseTexture = houseNode.texture?.description
-            print(currentHouseTexture)
+            run(self.bombSound)
+            nodeA.removeFromParent()
+            nodeB.removeFromParent()
+            return
+        }
+
+        if oneNodeIsShoot && oneNodeIsBomb {
+            nodeA.removeFromParent()
+            nodeB.removeFromParent()
+            return
+        }
+
+        if oneNodeIsShoot {
+            nodeA.name == "shoot" ? nodeA.removeFromParent() : nodeB.removeFromParent()
         }
     }
 }
